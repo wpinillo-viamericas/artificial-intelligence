@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://data-ai-agents/shared/schemas/enums.json",
+  "title": "Shared enumerations for Data & AI agents",
+  "description": "Cross-agent controlled vocabularies. Reference these via $ref so all agents classify consistently.",
+  "$defs": {
+    "downstream_role": {
+      "type": "string",
+      "description": "Canonical role keys for addressing handoffs. Keep in sync with shared/context/org_structure.md.",
+      "enum": [
+        "data_engineering",
+        "data_assurance",
+        "value_assurance",
+        "data_visualization",
+        "digital_analytics",
+        "data_governance",
+        "data_science",
+        "project_management",
+        "head_of_data"
+      ]
+    },
+    "request_type": {
+      "type": "string",
+      "enum": [
+        "dashboard_reporting",
+        "digital_analytics_tracking",
+        "data_pipeline_integration",
+        "data_quality_governance",
+        "ai_ml_use_case",
+        "mixed_platform",
+        "other"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"]
+    },
+    "likelihood": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "risk_category": {
+      "type": "string",
+      "enum": [
+        "missing_ownership",
+        "unclear_data_source",
+        "data_quality_gap",
+        "security_compliance",
+        "scalability_limitation",
+        "unclear_success_metric",
+        "integration_dependency",
+        "unclear_scope",
+        "cost",
+        "other"
+      ]
+    },
+    "solution_component_type": {
+      "type": "string",
+      "enum": [
+        "data_source",
+        "data_ingestion",
+        "data_model",
+        "transformation",
+        "analytics_layer",
+        "integration",
+        "governance",
+        "visualization",
+        "ml_model",
+        "orchestration",
+        "infrastructure"
+      ]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "medium", "high"]
+    },
+    "known_state": {
+      "type": "string",
+      "description": "Whether a fact is confirmed, assumed by the agent, or missing.",
+      "enum": ["confirmed", "assumed", "unknown"]
+    }
+  }
+}

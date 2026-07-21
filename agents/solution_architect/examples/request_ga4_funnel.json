@@ -1,0 +1,17 @@
+{
+  "request_id": "REQ-2026-0142",
+  "request_text": "The growth team wants to understand where users drop off in our new online money-transfer signup flow, and they'd like a dashboard leadership can check weekly. Right now nobody can tell us the conversion rate from landing to completed first transfer.",
+  "requester": {
+    "name": "Growth Team",
+    "role": "Product / Growth",
+    "team": "Consumer Digital"
+  },
+  "business_context": "A redesigned signup-to-first-transfer flow launched last quarter. Leadership suspects drop-off is high but has no measurement.",
+  "known_stakeholders": [
+    { "name_or_role": "Head of Growth", "responsibility": "Sponsor, wants weekly view" }
+  ],
+  "known_systems": ["Marketing website", "Signup web app", "GA4 (partially configured)"],
+  "known_constraints": ["Handles customer PII", "Leadership wants something within the quarter"],
+  "desired_outcome": "Clear visibility into funnel drop-off and a weekly leadership dashboard.",
+  "target_date": "end of current quarter"
+}

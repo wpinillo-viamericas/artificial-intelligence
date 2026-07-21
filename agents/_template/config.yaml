@@ -1,0 +1,39 @@
+# <Agent display name> — configuration (TEMPLATE — copy and fill in)
+
+agent:
+  name: <role_name>                      # snake_case, matches folder + meta.agent
+  display_name: <Agent display name>
+  role: <Human role supported>
+  version: 0.1.0
+  description: >
+    <One-paragraph description of what this agent turns into what.>
+
+model:
+  provider: anthropic
+  name: claude-opus-4-8                   # capable tier for reasoning; use a faster tier for mechanical agents
+  temperature: 0.2
+  max_output_tokens: 8000
+
+prompt:
+  compose:
+    - shared/prompts/base_agent.md
+    - agents/<role_name>/prompt.md
+  context_includes:
+    - shared/context/org_structure.md
+    - shared/context/data_ai_operating_model.md
+
+schemas:
+  input: agents/<role_name>/schemas/input.schema.json
+  output: agents/<role_name>/schemas/output.schema.json
+  shared_enums: shared/schemas/enums.json
+
+output:
+  format: json
+  enforce_schema: true
+  stamp_metadata:
+    - generated_at
+    - request_id
+
+examples: []
+tests:
+  cases: agents/<role_name>/tests/cases.md

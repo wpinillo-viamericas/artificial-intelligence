@@ -1,0 +1,49 @@
+# Solutions Architecture Agent — configuration
+# Consumed by the agent runner (shared/utils/agent_runner). Keeps the agent portable:
+# prompt, schemas, and context are referenced, not hardcoded in the runtime.
+
+agent:
+  name: solution_architect
+  display_name: Solutions Architecture Agent
+  role: Solution Architect
+  version: 0.1.0
+  description: >
+    Turns a business, analytics, data, or AI initiative request into a structured
+    Solution Architecture Brief with scoped handoffs for downstream Data & AI roles.
+
+model:
+  # Architecture reasoning benefits from a capable model and low temperature for consistency.
+  provider: anthropic
+  name: claude-opus-4-8            # latest capable Opus tier; adjust as models evolve
+  temperature: 0.2
+  max_output_tokens: 8000
+
+prompt:
+  # Final system prompt is composed in this order.
+  compose:
+    - shared/prompts/base_agent.md
+    - agents/solution_architect/prompt.md
+  context_includes:
+    # Injected as ground truth after the prompt blocks.
+    - shared/context/org_structure.md
+    - shared/context/data_ai_operating_model.md
+
+schemas:
+  input: agents/solution_architect/schemas/input.schema.json
+  output: agents/solution_architect/schemas/output.schema.json
+  shared_enums: shared/schemas/enums.json
+
+output:
+  # Enforce structured output; validate before returning to caller or routing handoffs.
+  format: json
+  enforce_schema: true
+  stamp_metadata:            # runner fills these into meta at runtime
+    - generated_at
+    - request_id
+
+examples:
+  - agents/solution_architect/examples/request_ga4_funnel.json
+  - agents/solution_architect/examples/output_ga4_funnel.json
+
+tests:
+  cases: agents/solution_architect/tests/cases.md

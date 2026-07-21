@@ -1,0 +1,18 @@
+[project]
+name = "data-ai-agents-mcp"
+version = "0.1.0"
+description = "Internal MCP server exposing the Data & AI Agents repo's schemas, shared context, artifact validation, handoff extraction, governance registry, and diagram rendering."
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[cli]>=1.2.0",
+    "jsonschema>=4.18",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+data-ai-agents-mcp = "shared.mcp.server:main"
+
+[tool.pytest.ini_options]
+testpaths = ["shared/mcp/tests"]

@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://data-ai-agents/agents/solution_architect/input.schema.json",
+  "title": "Solution Architect Agent — Input",
+  "description": "A business, analytics, data, or AI initiative request entering the Solution Architect intake. Only 'request_text' is required; everything else is optional context that, when provided, reduces the number of open questions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_text"],
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "description": "Optional external identifier for tracking (ticket/initiative id)."
+    },
+    "request_text": {
+      "type": "string",
+      "description": "The raw request, in the requester's own words. Can be a single sentence or a full brief.",
+      "minLength": 1
+    },
+    "requester": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "team": { "type": "string" }
+      }
+    },
+    "business_context": {
+      "type": "string",
+      "description": "Optional background: the business problem, driver, or opportunity behind the request."
+    },
+    "known_stakeholders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name_or_role"],
+        "properties": {
+          "name_or_role": { "type": "string" },
+          "responsibility": { "type": "string" }
+        }
+      }
+    },
+    "known_systems": {
+      "type": "array",
+      "description": "Systems, data sources, or platforms the requester already knows are involved.",
+      "items": { "type": "string" }
+    },
+    "known_constraints": {
+      "type": "array",
+      "description": "Deadlines, budget, compliance, technology, or other constraints already known.",
+      "items": { "type": "string" }
+    },
+    "desired_outcome": {
+      "type": "string",
+      "description": "What the requester says success looks like, if stated."
+    },
+    "target_date": {
+      "type": "string",
+      "description": "Optional requested delivery date or timeframe (free text or ISO date)."
+    },
+    "attachments": {
+      "type": "array",
+      "description": "References to supporting material (links, doc names). Not the content itself.",
+      "items": { "type": "string" }
+    }
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://data-ai-agents/agents/solution_architect/output.schema.json",
+  "title": "Solution Architect Agent — Output (Solution Architecture Brief)",
+  "description": "A structured Solution Architecture Brief plus scoped handoff packets for downstream roles. This is the source of truth; any markdown rendering is derived from it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "request_summary",
+    "objective",
+    "request_type",
+    "stakeholders",
+    "solution_options",
+    "recommended_option",
+    "solution_components",
+    "success_metrics",
+    "risks",
+    "open_questions",
+    "assumptions",
+    "delivery_dependencies",
+    "handoffs"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent", "version"],
+      "properties": {
+        "agent": { "type": "string", "const": "solution_architect" },
+        "version": { "type": "string", "description": "Agent version, e.g. 0.1.0." },
+        "request_id": { "type": "string" },
+        "generated_at": { "type": "string", "description": "ISO timestamp, stamped by the runner." },
+        "overall_confidence": { "$ref": "../../../shared/schemas/enums.json#/$defs/confidence" }
+      }
+    },
+    "request_summary": {
+      "type": "string",
+      "description": "One-paragraph neutral restatement of the request in the architect's words."
+    },
+    "objective": {
+      "type": "string",
+      "description": "One sentence a business sponsor would agree with. What this initiative must achieve."
+    },
+    "request_type": { "$ref": "../../../shared/schemas/enums.json#/$defs/request_type" },
+    "business_context": {
+      "type": "string",
+      "description": "The business driver/problem behind the request, as understood."
+    },
+    "stakeholders": {
+      "type": "array",
+      "description": "Must include a business owner and a data/technical owner, or flag the gap in risks/open_questions.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name_or_role", "responsibility", "state"],
+        "properties": {
+          "name_or_role": { "type": "string" },
+          "responsibility": { "type": "string" },
+          "is_owner": { "type": "boolean", "description": "True if accountable owner for the initiative or a domain within it." },
+          "state": { "$ref": "../../../shared/schemas/enums.json#/$defs/known_state" }
+        }
+      }
+    },
+    "solution_options": {
+      "type": "array",
+      "description": "2-3 viable options at a high level. Do not over-engineer; a single obvious option is acceptable if justified.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "summary", "pros", "cons"],
+        "properties": {
+          "name": { "type": "string" },
+          "summary": { "type": "string" },
+          "pros": { "type": "array", "items": { "type": "string" } },
+          "cons": { "type": "array", "items": { "type": "string" } },
+          "rough_effort": { "$ref": "../../../shared/schemas/enums.json#/$defs/priority", "description": "Relative effort/complexity (low/medium/high)." }
+        }
+      }
+    },
+    "recommended_option": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["option_name", "rationale"],
+      "properties": {
+        "option_name": { "type": "string", "description": "Must match one solution_options[].name." },
+        "rationale": { "type": "string" }
+      }
+    },
+    "solution_components": {
+      "type": "array",
+      "description": "The required building blocks: data sources, ingestion, models, analytics layers, integrations, governance, viz, ML, orchestration, infrastructure.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "name", "description", "state"],
+        "properties": {
+          "type": { "$ref": "../../../shared/schemas/enums.json#/$defs/solution_component_type" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "owner": { "type": "string", "description": "Owning role/person, or omit and flag as gap." },
+          "state": { "$ref": "../../../shared/schemas/enums.json#/$defs/known_state" }
+        }
+      }
+    },
+    "success_metrics": {
+      "type": "array",
+      "description": "Measurable indicators of success. Aspirational-only metrics should be flagged as open questions.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["metric", "measurable"],
+        "properties": {
+          "metric": { "type": "string" },
+          "target": { "type": "string", "description": "Target value/threshold if known." },
+          "measurable": { "type": "boolean", "description": "False if currently not measurable; then add an open_question." }
+        }
+      }
+    },
+    "risks": {
+      "type": "array",
+      "description": "Specific architectural/delivery risks. 'No known risks' should be rare and justified.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["category", "description", "severity", "likelihood"],
+        "properties": {
+          "category": { "$ref": "../../../shared/schemas/enums.json#/$defs/risk_category" },
+          "description": { "type": "string" },
+          "severity": { "$ref": "../../../shared/schemas/enums.json#/$defs/severity" },
+          "likelihood": { "$ref": "../../../shared/schemas/enums.json#/$defs/likelihood" },
+          "mitigation": { "type": "string" },
+          "owner": { "type": "string", "description": "Who should own mitigation." },
+          "is_gap": { "type": "boolean", "description": "True if no owner is currently assigned (an ownership gap)." }
+        }
+      }
+    },
+    "open_questions": {
+      "type": "array",
+      "description": "What must be answered before or during design. Each should be directed at someone.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["question"],
+        "properties": {
+          "question": { "type": "string" },
+          "directed_to": { "type": "string", "description": "Role/person best placed to answer." },
+          "priority": { "$ref": "../../../shared/schemas/enums.json#/$defs/priority" }
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "description": "Everything the brief assumes that is not confirmed. Must be explicit.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["assumption"],
+        "properties": {
+          "assumption": { "type": "string" },
+          "impact_if_wrong": { "type": "string" }
+        }
+      }
+    },
+    "delivery_dependencies": {
+      "type": "array",
+      "description": "Prerequisites and sequencing needed to deliver, including cross-team dependencies.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["dependency"],
+        "properties": {
+          "dependency": { "type": "string" },
+          "depends_on_role": { "$ref": "../../../shared/schemas/enums.json#/$defs/downstream_role" },
+          "blocking": { "type": "boolean" }
+        }
+      }
+    },
+    "handoffs": {
+      "type": "array",
+      "description": "Scoped packets addressed to downstream roles. Each must be self-contained enough for the receiving role (or its future agent) to begin work. Include only roles that are actually needed.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["to_role", "objective", "scope"],
+        "properties": {
+          "to_role": { "$ref": "../../../shared/schemas/enums.json#/$defs/downstream_role" },
+          "objective": { "type": "string", "description": "What this role needs to accomplish for this initiative." },
+          "scope": { "type": "array", "items": { "type": "string" }, "description": "Concrete tasks/items in scope for this role." },
+          "inputs_provided": { "type": "array", "items": { "type": "string" }, "description": "What the architect is handing over (sources, decisions, constraints)." },
+          "open_items": { "type": "array", "items": { "type": "string" }, "description": "Unresolved items the receiving role must chase down." }
+        }
+      }
+    }
+  }
+}

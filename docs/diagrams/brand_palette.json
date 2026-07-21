@@ -1,0 +1,21 @@
+{
+  "_meta": {
+    "brand": "Viamericas",
+    "status": "UNVERIFIED — confirm against official brand kit",
+    "note": "Best-effort palette (deep blue + orange/gold + neutrals). Swap these hex values for the official Viamericas brand-kit values when available; re-run render.py to propagate.",
+    "how_to_get_official": "Provide the official hex codes, or drop the logo (SVG/PNG) in the repo to color-pick exact values."
+  },
+  "colors": {
+    "primary": "#003DA5",
+    "primary_dark": "#002B73",
+    "primary_light": "#E6EEF7",
+    "accent": "#F5A623",
+    "accent_dark": "#C97F12",
+    "on_primary": "#FFFFFF",
+    "on_accent": "#1A1A1A",
+    "neutral": "#5B6670",
+    "neutral_light": "#EEF1F4",
+    "ink": "#1A1A1A",
+    "surface": "#FFFFFF"
+  }
+}

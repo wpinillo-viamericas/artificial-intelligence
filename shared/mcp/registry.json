@@ -1,0 +1,83 @@
+{
+  "$comment": "Minimal agent/tool/prompt registry seed (decision D7 — Level-100 governance). Every production agent and tool must have an entry with an owner, risk tier, and eval status before it ships. Served read-only by the MCP server's list_agents / list_tools tools.",
+  "version": "0.1.0",
+  "agents": [
+    {
+      "name": "solution_architect",
+      "display_name": "Solutions Architecture Agent",
+      "role": "Solution Architect",
+      "version": "0.1.0",
+      "owner": "Head of Data & Analytics",
+      "risk_tier": "low",
+      "status": "pilot",
+      "eval_status": "golden-cases-drafted",
+      "reads": ["shared/context/*", "agent input request"],
+      "writes": ["solution architecture brief (draft, human-reviewed)"]
+    }
+  ],
+  "tools": [
+    {
+      "name": "validate_artifact",
+      "purpose": "Schema + consistency validation of an agent artifact",
+      "risk_tier": "low",
+      "access": "read-only",
+      "reversible": true,
+      "hitl_required": false
+    },
+    {
+      "name": "get_schema",
+      "purpose": "Serve an agent's input/output JSON Schema",
+      "risk_tier": "low",
+      "access": "read-only",
+      "reversible": true,
+      "hitl_required": false
+    },
+    {
+      "name": "get_shared_context",
+      "purpose": "Serve org-structure / operating-model ground truth for grounding",
+      "risk_tier": "low",
+      "access": "read-only",
+      "reversible": true,
+      "hitl_required": false
+    },
+    {
+      "name": "extract_handoffs",
+      "purpose": "Extract scoped handoff packets from a validated brief",
+      "risk_tier": "low",
+      "access": "read-only",
+      "reversible": true,
+      "hitl_required": false
+    },
+    {
+      "name": "list_agents",
+      "purpose": "Return the agent/tool registry entries",
+      "risk_tier": "low",
+      "access": "read-only",
+      "reversible": true,
+      "hitl_required": false
+    },
+    {
+      "name": "render_diagram",
+      "purpose": "Regenerate the operating-model diagram from palette + template",
+      "risk_tier": "medium",
+      "access": "write (regenerates files under docs/diagrams)",
+      "reversible": true,
+      "hitl_required": false,
+      "notes": "Only overwrites generated diagram artifacts; deterministic from source of truth."
+    }
+  ],
+  "prompts": [
+    {
+      "name": "base_agent",
+      "path": "shared/prompts/base_agent.md",
+      "purpose": "Shared base system prompt composed into every agent",
+      "owner": "Head of Data & Analytics"
+    },
+    {
+      "name": "solution_architect",
+      "path": "agents/solution_architect/prompt.md",
+      "purpose": "Solution Architect role prompt",
+      "owner": "Solution Architect"
+    }
+  ]
+}
