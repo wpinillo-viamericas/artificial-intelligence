@@ -13,6 +13,11 @@ env/
 node_modules/
 npm-debug.log*
 
+# Office documents (originals live in SharePoint / local folders; repo keeps markdown extracts)
+*.pptx
+*.docx
+*.xlsx
+
 # Secrets / local env
 .env
 .env.*
